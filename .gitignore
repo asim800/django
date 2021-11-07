@@ -1,4 +1,8 @@
-
+portfolio/migrations
+mysite/migrtions
+blogs/migrations/
+chat/migrations/
+members/migrations/
 static/
 media/
 staticfiles/mysite/images

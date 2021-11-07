@@ -1,0 +1,47 @@
+
+{% extends "mysite/base_site.html" %} 
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="header2">	
+<ul>
+  <li><a href="{% url 'add-blog' %}">Add...</a></li>
+</ul>
+</div>
+{% endif %}
+
+<div class="content" >
+	{% for blog in blogs %}
+
+	<div class="box red"></div> 
+	<div class="box green"> </div> 
+	<div class="box blue"> </div>	
+	<h1>{{ blog.title }} </h1>
+	{% if user.is_authenticated %}
+	<ul>
+		<li><a href="{% url 'update-blog'  blog.pk %}">Edit...</a></li>
+		<li><a href="{% url 'delete-blog'  blog.pk %}">Delete...</a></li>
+	</ul>
+	{% endif %}
+
+	<div class="blogimage">
+	{% if blog.image %}
+		<img src={{ blog.image.url }} height=200 width=auto>
+	{% endif %}
+	</div>
+
+	<br>
+	<div class="blog"> 
+	{{ blog.content|safe }} 
+	{% if blog.url %}
+	<a href="{{ blog.url }}">Link</a>
+	{% endif %}	
+	<br>
+	<p> <i>{{ blog.updated_at }} </i> </p>
+</div> <!-- blog -->
+
+
+
+	{% endfor %}
+</div> 
+{% endblock %}

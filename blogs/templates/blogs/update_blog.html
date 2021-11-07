@@ -1,0 +1,30 @@
+{% extends "mysite/base_site.html" %}
+{% block title %} Create a New Blog Post{% endblock %}
+
+{% block content %}
+
+
+
+<div class="content" >
+<h1> Update This Blog </h1>
+
+<div class="form-group">
+<form method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	{{ form.media }}
+	{{ form.as_p }}
+
+	<input type="Submit" value="Update">
+
+
+
+
+</form>
+</div>
+
+
+
+
+</div> 
+{% endblock %}
