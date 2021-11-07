@@ -1,0 +1,36 @@
+
+
+{% extends "mysite/base_site.html" %}
+{% block title %} PLOT {% endblock %} 
+
+
+{% block content %}
+
+
+<br>
+<form method="post" >
+	{% csrf_token %}	
+	<label > You
+		 <input type="text" align="right" name="query" value="">   
+	</label>
+	{{ form.as_p }}
+	<br>
+	<br>
+	<div style="color: blue" > {{ response }} </div>
+	<br>
+	<br>
+</form>		 
+<div class="content" >
+<ul>
+</ul>
+
+{% if chat_figure %}
+	{% autoescape off %}
+		<li>
+			This is the plot
+		</li>
+		{{ chat_figure }}
+	{% endautoescape %} 
+{% endif %}
+</div> 
+{% endblock %}

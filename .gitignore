@@ -1,0 +1,15 @@
+
+static/
+media/
+staticfiles/mysite/images
+staticfiles/mysite/
+db.sqlite3
+blog.db.sqlite3
+notes.txt
+Pipfile
+Pipfile.lock
+requirements.txt
+.vscode/
+myproject
+
+

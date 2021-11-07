@@ -1,0 +1,5 @@
+Pipfile
+Pipfile.lock
+notes.txt
+db.py
+db.sqlite3

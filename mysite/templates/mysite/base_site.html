@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html >
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>quantwell Web Page</title>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="Markets, Crypto, Ethereum">
+	<meta name="description" content="Discover the World of Finance Technology">
+
+	<link href={% static "mysite/css/style.css" %} rel="stylesheet" type="text/css" />
+	<!--[if IE 6]>
+		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if IE 7]>
+        <link href="css/ie7.css" rel="stylesheet" type="text/css" />  
+	<![endif]-->
+
+	<!-- <script> console.log("Hello "); </script> -->
+	<script src={% static "mysite/src/app/app.js" %} ></script>
+	<!-- <script src={% static "mysite/javascript/navigation.js" %} ></script> -->
+
+</head>
+
+<body>
+
+	<div id="page">
+		<div class="body">
+			<div id="sidebar">
+				<a href="index.html"><img id="logo" src={% static "mysite/images/logo2.png" %} with="154" height="74" alt="" title=""/></a>
+								
+				<div id="topbar">
+					<ul class="navigation"><section id="block-aw-core-visitormainmenu" data-block-original-title="Website navigation" ></section>	
+
+
+						<li>
+							<a href="{% url 'mysite-index' %}">Home</a>
+						</li>
+						<li>
+							<a href="#">About</a>
+						</li>
+						<li>
+							<a href="/blogs">QBlogs</a>
+						</li>
+						<li>
+							<a href="{% url 'chat-home' %}"> QChat</a>
+						</li>
+						{% if user.is_authenticated %} 
+						<li>							
+							<a href="{% url 'logout' %}">Logout</a>				
+						</li>
+
+						{% else %}
+						<li>
+							<a href="{% url 'login' %}">Login</a>
+						</li>
+						<li>
+							<a href="{% url 'register' %}">Register </a>
+						</li>						
+						{% endif %}							
+						<li>
+							<a href="#">Contact </a>
+						</li>
+					</ul>	
+				</div> <!-- id='topbar' -->												
+			</div>
+
+			<div class="container">
+					{% block content %}
+					{% endblock %}
+    	</div>
+
+
+			
+			<div class="footenote">
+				<script>
+					const mysitejs = new Mysitejs();
+					mysitejs.render();
+				</script>
+				<span>&copy; Copyright &copy; 2021.</span>
+				<span><a href="index.html">QuantwellAI</a> all rights reserved</span>
+			</div>
+		</div>
+			
+			<br>
+			<a href = "mailto: mail@asimahmed.com">Send Email</a>
+			<p>&copy; QuantwellAI</p>
+			<p> {% now "jS F Y H:i" %}</p>
+		</div> <!-- id=page -->
+
+
+
+
+</body>
