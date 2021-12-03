@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-	<title>quantwell Web Page</title>
+	<title>quantwell.io Web Page</title>
 
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +13,7 @@
 	<meta name="keywords" content="Markets, Crypto, Ethereum">
 	<meta name="description" content="Discover the World of Finance Technology">
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 	<link href={% static "mysite/css/style.css" %} rel="stylesheet" type="text/css" />
 	<!--[if IE 6]>
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
@@ -20,41 +21,47 @@
 	<!--[if IE 7]>
         <link href="css/ie7.css" rel="stylesheet" type="text/css" />  
 	<![endif]-->
+	<link rel="icon" type="image/x-icon" href={% static "mysite/images/favicon.ico" %}>
 
 	<!-- <script> console.log("Hello "); </script> -->
+	<!-- <script src="jquery-3.5.1.min.js"></script> -->
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src={% static "mysite/src/app/app.js" %} ></script>
 	<!-- <script src={% static "mysite/javascript/navigation.js" %} ></script> -->
 
 </head>
 
 <body>
-
 	<div id="page">
 		<div class="body">
 			<div id="sidebar">
-				<a href="index.html"><img id="logo" src={% static "mysite/images/logo2.png" %} with="154" height="74" alt="" title=""/></a>
-								
+				<i class="fas fa-chart-line fa-5x" style="color:#92a1cf;"></i>
+				<!-- <a href="index.html"><img id="logo" src={% static "mysite/images/logo2.png" %} with="154" height="74" alt="" title=""/></a> -->
+				
+
 				<div id="topbar">
 					<ul class="navigation"><section id="block-aw-core-visitormainmenu" data-block-original-title="Website navigation" ></section>	
-
-
+						
+						
 						<li>
 							<a href="{% url 'mysite-index' %}">Home</a>
 						</li>
 						<li>
-							<a href="#">About</a>
-						</li>
-						<li>
-							<a href="/blogs">QBlogs</a>
+							<a href="/blogs">QViews</a>
 						</li>
 						<li>
 							<a href="{% url 'chat-home' %}"> QChat</a>
+						</li>
+						<li>
+							<a href="{% url 'portfolio-home' %}">QPortfolio</a>
 						</li>
 						{% if user.is_authenticated %} 
 						<li>							
 							<a href="{% url 'logout' %}">Logout</a>				
 						</li>
-
+						
 						{% else %}
 						<li>
 							<a href="{% url 'login' %}">Login</a>
@@ -63,37 +70,39 @@
 							<a href="{% url 'register' %}">Register </a>
 						</li>						
 						{% endif %}							
+						
 						<li>
-							<a href="#">Contact </a>
+							<a href="#">About</a>
 						</li>
 					</ul>	
 				</div> <!-- id='topbar' -->												
 			</div>
-
+			
 			<div class="container">
-					{% block content %}
-					{% endblock %}
+				{% block content %}
+				{% endblock %}
     	</div>
-
-
+			
+			
 			
 			<div class="footenote">
 				<script>
 					const mysitejs = new Mysitejs();
 					mysitejs.render();
-				</script>
+					</script>
 				<span>&copy; Copyright &copy; 2021.</span>
-				<span><a href="index.html">QuantwellAI</a> all rights reserved</span>
+				<span><a href="index.html">Quantwell.io</a> all rights reserved</span>
 			</div>
 		</div>
-			
-			<br>
-			<a href = "mailto: mail@asimahmed.com">Send Email</a>
-			<p>&copy; QuantwellAI</p>
-			<p> {% now "jS F Y H:i" %}</p>
-		</div> <!-- id=page -->
-
-
-
-
+		
+		<i class="fas fa-analytics"></i>
+		<br>
+		<a href = "mailto: contact@asimahmed.com">Send Email</a>
+		<p>&copy; Quantwell.io</p>
+		<p> {% now "jS F Y H:i" %}</p>
+	</div> <!-- id=page -->
+	
+	
+	
+	<i class="fab fa-500px"></i>
 </body>

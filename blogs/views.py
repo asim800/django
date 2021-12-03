@@ -1,4 +1,5 @@
 import datetime
+from django.http.response import HttpResponseRedirect
 
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -7,21 +8,25 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.http import HttpResponse
 from django.urls import reverse
 
+from django.core.paginator import Paginator
 
-from .models import Blog
-from .forms import BlogForm
+
+from .models import Blog, Comment
+from .forms import BlogForm, CommentForm
 
 import ipdb
 
 # Create your views here.
 
 
+
 def blogs_home(request):
 	# top_blogs = Blog.objects.order_by('-date')[5]
 	top_blogs = Blog.objects.all().order_by('-created_at')[:5]
-	
 
 	return render(request, 'blogs/home.html', {'blogs': top_blogs})
+
+
 
 
 def blog_detail(request, blog_id):
@@ -29,11 +34,35 @@ def blog_detail(request, blog_id):
 	# return render(request, 'blog/detail.html', {'id':blog_id})
 	return render(request, 'blogs/detail.html', {'blog':blog})
 
+def like_blog(request, pk):
+	blog = get_object_or_404(Blog, id=pk)
+	blog = get_object_or_404(Blog, id=request.POST.get('blog_id'))
+	blog.likes.add(request.user)
+
+	# return HttpResponseRedirect(reverse('like-blog', args=[1]))
+	return HttpResponseRedirect(reverse('blog-home'))
+
+
+
+
+
+class BlogHomeView(ListView):
+	model = Blog
+	context_object_name = 'blogs'
+	template_name = 'blogs/home.html'
+	ordering = ['-created_at']
+	paginate_by = 2
+	# queryset = Blog.objects.all() 
+
+
 
 class HomeView(ListView):
 	model = Blog
+	# context_object_name = 'blogs'
 	template_name = 'blogs/home_view.html'
 	ordering = ['-created_at']
+	paginate_by = 2
+	# queryset = Blog.objects.all() 
 
 
 class ArticleDetailView(DetailView):
@@ -43,9 +72,46 @@ class ArticleDetailView(DetailView):
 class AddBlogView(CreateView):
 	model = Blog
 	template_name = 'blogs/add_blog.html'
-	fields = '__all__'
+	# fields = '__all__'
+	form_class = BlogForm
+
+	def form_valid(self, form):
+		print("USS ", type(self.request.user), dir(self.request.user))
+		print(self.request.user, self.request.user.id, dir(self.request.user), "UUUUUUUUUUUUUUU")
+		print(form, " HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH ", dir(form.instance), "EEEEEEEEEEEE", type(self.request.user.id))
+		if not self.request.user.is_anonymous:
+			form.instance.author = self.request.user
+			form.instance.author_id = self.request.user.id
+			return super().form_valid(form)
+		else:
+			return HttpResponse('Please Log in to Post a Blog')
 
 
+	def get_success_url(self):
+		return reverse('blog-home')
+
+
+class AddCommentView(CreateView):
+	model = Comment
+	template_name = 'blogs/add_comment.html'
+	form_class = CommentForm
+	# fields = '__all__'
+
+	def form_valid(self, form):
+		print("PPPPP ", self.kwargs)
+		form.instance.blog_id = self.kwargs['blog_id']
+		return super().form_valid(form)
+
+
+	def get_absolute_url(self):
+		# return reverse('blog-detail-view', args=(str(self.id)))
+		return reverse('blog-home')
+
+	def get_object(self):
+		pk_ = self.kwargs.get("blog")
+
+	def get_success_url(self):
+		return reverse('blog-home')
 
 
 class UpdateBlogView(UpdateView):

@@ -4,7 +4,7 @@
 
 {% if user.is_authenticated %}
 <div class="header2">	
-<ul>
+	<ul>
   <li><a href="{% url 'add-blog' %}">Add...</a></li>
 </ul>
 </div>
@@ -12,36 +12,94 @@
 
 <div class="content" >
 	{% for blog in blogs %}
-
+	
 	<div class="box red"></div> 
 	<div class="box green"> </div> 
 	<div class="box blue"> </div>	
-	<h1>{{ blog.title }} </h1>
-	{% if user.is_authenticated %}
+
+	{% if user.is_authenticated and user == blog.author %}
 	<ul>
 		<li><a href="{% url 'update-blog'  blog.pk %}">Edit...</a></li>
 		<li><a href="{% url 'delete-blog'  blog.pk %}">Delete...</a></li>
 	</ul>
 	{% endif %}
-
-	<div class="blogimage">
-	{% if blog.image %}
-		<img src={{ blog.image.url }} height=200 width=auto>
+	
+	{% if blog.is_public or user == blog.author or user.is_staff %}
+	
+	<h1>{{ blog.title }} </h1>
+	{% if not blog.is_public %}
+	<strong style="color: red"> NOT PUBLIC </strong>
 	{% endif %}
+	<div class="blogimage">
+		{% if blog.image %}
+		<img src={{ blog.image.url }} height=200 width=auto>
+		{% endif %}
 	</div>
-
+	
 	<br>
 	<div class="blog"> 
-	{{ blog.content|safe }} 
-	{% if blog.url %}
-	<a href="{{ blog.url }}">Link</a>
-	{% endif %}	
+		{{ blog.content|safe }} 
+		{% if blog.url %}
+		<a href="{{ blog.url }}">Link</a>
+		{% endif %}	
+		<br>
+		<p> <i>{{ blog.updated_at }} </i> </p>
+	</div> <!-- blog -->
+	
+	<h3> COMMENTS  </h3>
 	<br>
-	<p> <i>{{ blog.updated_at }} </i> </p>
-</div> <!-- blog -->
-
-
-
+	<a href="{% url 'add-comment' blog.pk %}">Add Comment</a>
+	{% if blog.comments.all %} 
+	{% for comment in blog.comments.all %} 
+	<!-- <p>{{ user }} {{ blog.author }} </p> -->
+	<p> {{ blog.author.first_name }} says </p><br>
+	<p> {{ comment.text }}</p>
+	
 	{% endfor %}
+	<br>
+	
+	{% else %} 
+	
+	<h5> No Comments Yet</h5>
+	<br>
+	<br>
+	
+	{% endif %}
+	<br>
+	<form action="{% url 'like-blog' blog.pk %}" method="POST">
+		{% csrf_token %} 
+		<button type=submit name="blog_id" value="{{ blog.pk }}" class="btn btn-primary btn-sm">Like</button>
+	</form>
+	{% if user.is_authenticated %}
+		<p>{{ blog.likes_count }} </p>
+	{% endif %}
+
+	{% endif %} 
+
+	<hr>
+	{% endfor %}
+	
+	{% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+	{% endif %}
+
 </div> 
 {% endblock %}

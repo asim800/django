@@ -4,35 +4,39 @@
 
 {% block content %}
 <div class="content" >
-	<img srcset={% static "mysite/images/shutterstock_1.jpg" %}  alt="beautiful image" title=""> 
+	<!-- <img srcset={% static "mysite/images/shutterstock_1.jpg" %}  alt="beautiful image" title="">  -->
+	<div class="mysite">
+
+	</div>
+
 	<div class="featured">
-
-			<ul>
-				<li class="first">
-					<!--<p>hi.</p> -->
-					<img src={% static "mysite/images/hi.jpg" %} alt="" title="" >
-				</li>
-
-				<li>
-			<p>
-				Lets start our journey together
-			</p>
-				</li>
-				<li>					
-			<p>
-				Lets make a difference
-			</p>
+		
+		<ul>
+			<li class="first">
+				<!--<p>hi.</p> -->
+				<img src={% static "mysite/images/hi.jpg" %} alt="" title="" >
 			</li>
-			</ul>
 			
-
+			<li>
+				<p>
+					Lets start our journey together
+				</p>
+			</li>
+			<li>					
+				<p>
+					Lets make a difference
+				</p>
+			</li>
+		</ul>
+		
+		
 	</div> <!-- class featured -->
+</div> 	 <!-- class content -->
 
 
 	
 					
 	
-</div> 	 <!-- class content -->
 {% endblock %}
 
 
